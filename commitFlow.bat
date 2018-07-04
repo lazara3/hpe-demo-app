@@ -1,3 +1,4 @@
+dir
 git config --global user.email "_alm_octane_auto@microfocus.com"
 git config --global user.name "_alm_octane_auto"
 
