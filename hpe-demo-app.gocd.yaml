@@ -1,0 +1,38 @@
+format_version: 10
+pipelines:
+  hpe-demo-appYml:
+    group: groupB
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    environment_variables:
+      MAVEN_HOME: C:\ProgramData\chocolatey\lib\maven\apache-maven-3.6.0
+      JAVA_HOME: C:\Program Files\java\jdk8u172-b11\
+    materials:
+      git-d4a47d2:
+        git: https://github.com/lazara3/hpe-demo-app.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+    stages:
+    - runTests:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          compile:
+            timeout: 0
+            artifacts:
+            - test:
+                source: '**/*.xml'
+                destination: testoutput
+            tasks:
+            - exec:
+                arguments:
+                - clean
+                - install
+                command: mvn
+                run_if: passed
